@@ -22,5 +22,17 @@ class TestParse(unittest.TestCase):
 		result = parse.is_binomial_form('Turdus merula merula')
 		self.assertFalse(result)
 
+	def test_should_find_taxonavigation_section(self):
+		result = parse.has_taxonavigation('filler\n== Taxonavigation ==more filler')
+		self.assertTrue(result)
+
+	def test_should_find_taxonavigation_section_without_spaces(self):
+		result = parse.has_taxonavigation('filler\n==Taxonavigation==\nmore filler')
+		self.assertTrue(result)	
+
+	def test_should_not_find_taxonavigation_section(self):
+		result = parse.has_taxonavigation('filler\n==Tax==\nmore filler')
+		self.assertTrue(result)
+
 if __name__ == '__main__':
 	unittest.main()
