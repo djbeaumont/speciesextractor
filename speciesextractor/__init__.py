@@ -1,1 +1,2 @@
-from speciesextractor.parser import Parser
+from .parser import Parser
+from .species import Species
