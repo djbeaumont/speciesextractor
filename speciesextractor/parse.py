@@ -50,8 +50,7 @@ def is_binomial_form(title):
 	"""
 	Check if the page title matches the binomial naming format
 	"""
-	# TODO
-	return True
+	return re.match('^[A-Z]{1}[a-z]+ [a-z]+$', title) != None
 
 def has_taxonavigation(text):
 	"""
