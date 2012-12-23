@@ -56,4 +56,4 @@ def has_taxonavigation(text):
 	"""
 	Check if the page text contains a 'Taxonavigation' section
 	"""
-	return re.search('', text) != None
+	return re.search('==[\s]?Taxonavigation[\s]?==', text) != None
