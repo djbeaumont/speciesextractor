@@ -1,7 +1,7 @@
 import unittest
 from .. import parse
 
-class TestParse(unittest.TestCase):
+class TestParser(unittest.TestCase):
 	"""
 	Run with: python -m speciesextractor.test.parse discover --pattern=*.py
 	"""
