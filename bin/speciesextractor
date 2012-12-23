@@ -1,1 +1,13 @@
 #! /usr/bin/env python3
+
+import sys, os
+sys.path.append(os.path.abspath('../speciesextractor'))
+import speciesextractor
+
+p = speciesextractor.Parser('/Users/djb/Desktop/specieswiki-20121213-pages-meta-current.xml')
+p.parse()
+
+sorted_species = sorted(p.all_species, key=lambda s: s.binomial_name)
+
+for species in sorted_species:
+	print(species.binomial_name)
