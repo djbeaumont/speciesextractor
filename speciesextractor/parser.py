@@ -1,4 +1,5 @@
 from xml.etree import cElementTree as etree
+from .species import Species
 import re
 
 class Parser:
@@ -26,7 +27,8 @@ class Parser:
 				page_text = element.findtext('n:revision/n:text', namespaces=self.ns)
 
 				if self.is_species_page(page_title, page_text):
-					self.all_species.append(page_title)
+					s = Species(page_title)
+					self.all_species.append(s)
 
 				# Split the page text based on wikitext headings
 				#sections = re.split('(==\s*\w+\s*==)', page_text)
