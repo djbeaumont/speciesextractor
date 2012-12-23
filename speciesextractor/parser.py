@@ -22,31 +22,23 @@ class Parser:
 		page_tag = '{%s}%s' % (self.ns['n'], 'page')
 		for event, element in etree.iterparse(self.local_location):
 			if element.tag == page_tag:
-				self.parse_page(element)
+				page_title = element.findtext('n:title', namespaces=self.ns)
+				page_text = element.findtext('n:revision/n:text', namespaces=self.ns)
+
+				if self.is_species_page(page_title, page_text):
+					self.all_species.append(page_title)
+
+				# Split the page text based on wikitext headings
+				#sections = re.split('(==\s*\w+\s*==)', page_text)
 
 			# Clear memory
 			#element.clear()
-
-	def parse_page(self, page):
-		"""
-		Parse the contents of a page element
-		"""
-
-		page_title = page.findtext('n:title', namespaces=self.ns)
-		page_text = page.findtext('n:revision/n:text', namespaces=self.ns)
-
-		# Split the page text based on wikitext headings
-		sections = re.split('(==\s*\w+\s*==)', page_text)
-
-		print(page_title)
-		print(sections)
 
 	def is_species_page(self, title, text):
 		"""
 		Does this page contain a species with a standardised binomial name
 		"""
-		# TODO
-		return True
+		return self.is_binomial_form(title) and self.has_taxonavigation(text)
 
 	def is_template_page(self, title, text):
 		"""
