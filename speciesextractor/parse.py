@@ -26,7 +26,36 @@ def parse_page(page):
 	page_title = page.findtext('n:title', namespaces=ns)
 	page_text = page.findtext('n:revision/n:text', namespaces=ns)
 
+	# Split the page text based on wikitext headings
 	sections = re.split('(==\s*\w+\s*==)', page_text)
 
 	print(page_title)
 	print(sections)
+
+def is_species_page(title, text):
+	"""
+	Does this page contain a species with a standardised binomial name
+	"""
+	# TODO
+	return True
+
+def is_template_page(title, text):
+	"""
+	Is this page a template
+	"""
+	# TODO
+	return False
+
+def is_binomial_form(title):
+	"""
+	Check if the page title matches the binomial naming format
+	"""
+	# TODO
+	return True
+
+def has_taxonavigation(text):
+	"""
+	Check if the page text contains a 'Taxonavigation' section
+	"""
+	# TODO
+	return True
