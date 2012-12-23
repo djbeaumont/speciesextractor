@@ -1,4 +1,5 @@
 from xml.etree import cElementTree as etree
+import re
 
 ns = {
 	'n': 'http://www.mediawiki.org/xml/export-0.8/'
@@ -23,6 +24,9 @@ def parse_page(page):
 	"""
 
 	page_title = page.findtext('n:title', namespaces=ns)
-	page_text = page.findtext('n:text', namespaces=ns)
+	page_text = page.findtext('n:revision/n:text', namespaces=ns)
+
+	sections = re.split('(==\s*\w+\s*==)', page_text)
 
 	print(page_title)
+	print(sections)
