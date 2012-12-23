@@ -31,8 +31,8 @@ class Parser:
 				# Split the page text based on wikitext headings
 				#sections = re.split('(==\s*\w+\s*==)', page_text)
 
-			# Clear memory
-			#element.clear()
+				# Clear memory
+				element.clear()
 
 	def is_species_page(self, title, text):
 		"""
