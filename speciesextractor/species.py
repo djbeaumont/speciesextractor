@@ -1,9 +1,10 @@
 class Species:
 	"""Representation of a species"""
 
-	def __init__(self, binomial_name):
-		"""Construct a species from its binomial name"""
+	def __init__(self, binomial_name, vernacular_names):
+		"""Construct a species from its binomial name and vernacular_names"""
 		self.binomial_name = binomial_name
+		self.vernacular_names = vernacular_names
 
 	def __str__(self):
 		"""String representation of this Species"""

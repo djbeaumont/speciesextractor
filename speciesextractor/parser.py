@@ -22,7 +22,8 @@ class Parser:
 				page_text = element.findtext('n:revision/n:text', namespaces=self.ns)
 
 				if self.is_species_page(page_title, page_text):
-					s = Species(page_title)
+					names = self.parse_vernacular_names(page_text)
+					s = Species(page_title, names)
 					self.all_species.append(s)
 
 				# Split the page text based on wikitext headings
@@ -30,6 +31,12 @@ class Parser:
 
 				# Clear memory
 				element.clear()
+
+	def parse_vernacular_names(self, text):
+		"""Parse vernacular names from the page's wikitext"""
+
+		# TODO
+		return {}
 
 	def is_species_page(self, title, text):
 		"""Does this page contain a species with a standardised binomial name"""
@@ -48,5 +55,5 @@ class Parser:
 
 	def has_taxonavigation(self, text):
 		"""Check if the page text contains a 'Taxonavigation' section"""
-		
+
 		return re.search('==[\s]?Taxonavigation[\s]?==', text) != None
