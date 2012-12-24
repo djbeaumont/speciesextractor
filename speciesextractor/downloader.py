@@ -1,27 +1,34 @@
 import urllib, tempfile, bz2, os
 
-def download():
-	"""Download a dump file and store it in the user's temporary folder"""
+class Downloader:
+	"""Retrieve and extract wikispecies dump files"""
 
-	tmp_dir = tempfile.gettempdir()
-	web_location = "http://dumps.wikimedia.org/specieswiki/20121213/specieswiki-20121213-pages-meta-current.xml.bz2"
-	web_filename = web_location.split('/')[-1]
-	local_location = "%s/%s" % (tmp_dir, web_filename)
+	def __init__(self):
+		"""Construct a downloader"""
+		pass
 
-	urllib.urlretrieve(web_location, local_location)
-	decompressed_location = extract(local_location)
+	def download(self):
+		"""Download a dump file and store it in the user's temporary folder"""
 
-	return decompressed_location
+		tmp_dir = tempfile.gettempdir()
+		web_location = "http://dumps.wikimedia.org/specieswiki/20121213/specieswiki-20121213-pages-meta-current.xml.bz2"
+		web_filename = web_location.split('/')[-1]
+		local_location = "%s/%s" % (tmp_dir, web_filename)
 
-def extract(local_location):
-	"""Extract the given compressed file"""
-	
-	decompressed_location = local_location[:-4]
+		urllib.urlretrieve(web_location, local_location)
+		decompressed_location = self.extract(local_location)
 
-	data = bz2.BZ2File(local_location).read()
-	output = open(decompressed_location, 'w')
-	output.write(data)
-	output.close()
-	os.remove(local_location)
+		return decompressed_location
 
-	return decompressed_location
+	def extract(self, local_location):
+		"""Extract the given compressed file"""
+		
+		decompressed_location = local_location[:-4]
+
+		data = bz2.BZ2File(local_location).read()
+		output = open(decompressed_location, 'w')
+		output.write(data)
+		output.close()
+		os.remove(local_location)
+
+		return decompressed_location
