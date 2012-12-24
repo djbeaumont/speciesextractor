@@ -26,26 +26,26 @@ class Parser:
 					s = Species(page_title, names)
 					self.all_species.append(s)
 
-				# Split the page text based on wikitext headings
-				#sections = re.split('(==\s*\w+\s*==)', page_text)
-
 				# Clear memory
 				element.clear()
 
 	def parse_vernacular_names(self, text):
 		"""Parse vernacular names from the page's wikitext"""
+		sections = self.split_wiki_sections(text)
 
 		# TODO
 		return {}
 
+	def split_wiki_sections(self, text):
+		"""Split wikitext into sections using headings"""
+		return re.split('(==\s*\w+\s*==)', text)
+
 	def is_species_page(self, title, text):
 		"""Does this page contain a species with a standardised binomial name"""
-
 		return self.is_binomial_form(title) and self.has_taxonavigation(text)
 
 	def is_template_page(self, title, text):
 		"""Is this page a template"""
-
 		# TODO
 		return False
 
@@ -55,5 +55,4 @@ class Parser:
 
 	def has_taxonavigation(self, text):
 		"""Check if the page text contains a 'Taxonavigation' section"""
-
 		return re.search('==[\s]?Taxonavigation[\s]?==', text) != None
