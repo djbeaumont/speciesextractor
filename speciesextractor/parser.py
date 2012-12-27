@@ -31,8 +31,17 @@ class Parser:
 
     def parse_vernacular_names(self, text):
         """Parse vernacular names from the page's wikitext"""
-        # TODO - parse section into a dictionary
-        return self.get_vernacular_names_section(text)
+        vernacular_names_section = self.get_vernacular_names_section(text)
+
+        parsed_vernacular_names = {}
+
+        if vernacular_names_section != None:
+            # parse section into a dictionary
+            locale_names = re.findall('\|([a-z]{2,3})=([^\}|\|]+)', vernacular_names_section)
+            for locale in locale_names:
+                parsed_vernacular_names[locale[0]] = locale[1]
+        
+        return parsed_vernacular_names
 
     def get_vernacular_names_section(self, text):
         """Get the wikitext matching the vernacular names section"""
@@ -44,13 +53,16 @@ class Parser:
             if re.match('^==[\s]?Vernacular names[\s]?==$', section) != None:
                 vernacular_names_section = sections[sections.index(section) + 1]
 
-        # Remove line breaks
-        vernacular_names_section = vernacular_names_section.replace('\n', '')
+        if vernacular_names_section != None:
+            # Remove line breaks
+            vernacular_names_section = vernacular_names_section.replace('\n', '')
 
-        # Parse the names syntax block from the section
-        match = re.search('\{\{VN[^\}]+\}\}', vernacular_names_section)
+            # Parse the names syntax block from the section
+            match = re.search('\{\{VN[^\}]+\}\}', vernacular_names_section)
 
-        return match.group(0)
+            return match.group(0) if match != None else None
+        else:
+            return None
 
     def split_wiki_sections(self, text):
         """Split wikitext into sections using headings"""
