@@ -31,13 +31,26 @@ class Parser:
 
     def parse_vernacular_names(self, text):
         """Parse vernacular names from the page's wikitext"""
+        # TODO - parse section into a dictionary
+        return self.get_vernacular_names_section(text)
+
+    def get_vernacular_names_section(self, text):
+        """Get the wikitext matching the vernacular names section"""
         sections = self.split_wiki_sections(text)
-        print(sections)
+        vernacular_names_section = None
+
+        # Find the correct section of wikitext
         for section in sections:
             if re.match('^==[\s]?Vernacular names[\s]?==$', section) != None:
-                return sections[sections.index(section) + 1]
-        # TODO
-        return {}
+                vernacular_names_section = sections[sections.index(section) + 1]
+
+        # Remove line breaks
+        vernacular_names_section = vernacular_names_section.replace('\n', '')
+
+        # Parse the names syntax block from the section
+        match = re.search('\{\{VN[^\}]+\}\}', vernacular_names_section)
+
+        return match.group(0)
 
     def split_wiki_sections(self, text):
         """Split wikitext into sections using headings"""

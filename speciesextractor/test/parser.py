@@ -43,6 +43,7 @@ class TestParser(unittest.TestCase):
         self.assertEqual(["", "== Reference==", "\nContent\n", "==Vernacular names==", "\nMore content"], sections)
 
     def test_should_find_vernacular_names(self):
-        page_text = "== Reference ==\n* {{LSN10|170}}\n\n== Vernacular names ==\n{{VN\n|en=Blackbird, Ouzel\n|fr=Merle, Merle noir\n}}"
+        page_text = "== Reference ==\n* {{LSN10|170}}\n\n== Vernacular names ==\n"
+        page_text += "leading giberish\n{{VN\n|en=Blackbird, Ouzel\n|fr=Merle, Merle noir\n}} trailing giberish"
         names = self.parser.parse_vernacular_names(page_text)
         self.assertEqual({'en': ['Blackbird', 'Ouzel'], 'fr': ['Merle', 'Merle noir']}, names)
