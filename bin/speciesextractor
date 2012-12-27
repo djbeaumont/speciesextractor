@@ -10,4 +10,4 @@ p.parse()
 sorted_species = sorted(p.all_species, key=lambda s: s.binomial_name)
 
 for species in sorted_species:
-	print(species.binomial_name, '[%s]' % species.vernacular_names)
+	print(species.binomial_name, species.vernacular_names)

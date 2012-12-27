@@ -39,7 +39,8 @@ class Parser:
             # parse section into a dictionary
             locale_names = re.findall('\|([a-z]{2,3})=([^\}|\|]+)', vernacular_names_section)
             for locale in locale_names:
-                parsed_vernacular_names[locale[0]] = locale[1]
+                # Split out muliple names for the same locale
+                parsed_vernacular_names[locale[0]] = re.split(', ', locale[1])
         
         return parsed_vernacular_names
 
