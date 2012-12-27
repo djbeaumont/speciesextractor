@@ -37,6 +37,11 @@ class TestParser(unittest.TestCase):
         result = self.parser.has_taxonavigation('filler\n==Tax==\nmore filler')
         self.assertFalse(result)
 
+    def test_should_split_sections(self):
+        page_text = "== Reference==\nContent\n==Vernacular names==\nMore content"
+        sections = self.parser.split_wiki_sections(page_text)
+        self.assertEqual(["", "== Reference==", "\nContent\n", "==Vernacular names==", "\nMore content"], sections)
+
     def test_should_find_vernacular_names(self):
         page_text = "== Reference ==\n* {{LSN10|170}}\n\n== Vernacular names ==\n{{VN\n|en=Blackbird, Ouzel\n|fr=Merle, Merle noir\n}}"
         names = self.parser.parse_vernacular_names(page_text)

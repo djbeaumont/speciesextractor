@@ -32,13 +32,16 @@ class Parser:
     def parse_vernacular_names(self, text):
         """Parse vernacular names from the page's wikitext"""
         sections = self.split_wiki_sections(text)
-
+        print(sections)
+        for section in sections:
+            if re.match('^==[\s]?Vernacular names[\s]?==$', section) != None:
+                return sections[sections.index(section) + 1]
         # TODO
         return {}
 
     def split_wiki_sections(self, text):
         """Split wikitext into sections using headings"""
-        return re.split('(==\s*\w+\s*==)', text)
+        return re.split('(^==.+)', text, flags=re.MULTILINE)
 
     def is_species_page(self, title, text):
         """Does this page contain a species with a standardised binomial name"""
