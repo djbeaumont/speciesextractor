@@ -4,10 +4,10 @@ import sys, os
 sys.path.append(os.path.abspath('../speciesextractor'))
 import speciesextractor
 
-p = speciesextractor.Parser('/Users/djb/Desktop/specieswiki-20121213-pages-meta-current.xml')
-p.parse()
+parser = speciesextractor.Parser('/Users/djb/Desktop/specieswiki-20121213-pages-meta-current.xml')
+parser.parse()
 
-sorted_species = sorted(p.all_species, key=lambda s: s.binomial_name)
+sorted_species = sorted(parser.all_species, key=lambda s: s.binomial_name)
 
-for species in sorted_species:
-	print(species.binomial_name, species.vernacular_names)
+inserter = speciesextractor.Inserter()
+inserter.insert(sorted_species)
