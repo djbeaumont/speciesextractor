@@ -10,7 +10,6 @@ class Inserter:
     def insert(self, all_species):
         """Perform database inserts"""
         cur = self.db.cursor()
-
         species_insert_tpl = "INSERT INTO species (id) VALUES ('%s')"
         name_insert_tpl = ""
 
@@ -18,8 +17,24 @@ class Inserter:
             species_id = species.binomial_name.upper().replace(' ', '_')
             try:
                 cur.execute(species_insert_tpl % species_id)
-                # TODO - insert vernacular names
+                for locale in species.vernacular_names.keys():
+                    # save vernacular names
+                    # TODO
+                    pass
                 self.db.commit()
             except:
                 self.db.rollback()
                 print("Could not save species: %s" % species_id)
+
+    def insert_locales(self, locales):
+        """Save locales of vernacular names"""
+        cur = self.db.cursor()
+        locale_insert_tpl = "INSERT INTO locales (id) VALUES ('%s')"
+
+        for locale in locales:
+            try:
+                cur.execute(locale_insert_tpl % locale)
+                self.db.commit()
+            except:
+                self.db.rollback()
+                print("Could not save locale: %s" % locale)

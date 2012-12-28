@@ -11,6 +11,7 @@ class Parser:
         self.local_location = local_location
         self.ns = {'n': 'http://www.mediawiki.org/xml/export-0.8/'}
         self.all_species = []
+        self.locales = set()
 
     def parse(self):
         """Read XML out of a file and produce an object tree of species"""
@@ -40,6 +41,7 @@ class Parser:
             locale_names = re.findall('\|([a-z]{2,3})=([^\}|\|]+)', vernacular_names_section)
             for locale in locale_names:
                 # Split out muliple names for the same locale
+                self.locales.add(locale[0])
                 parsed_vernacular_names[locale[0]] = re.split(', ', locale[1])
         
         return parsed_vernacular_names

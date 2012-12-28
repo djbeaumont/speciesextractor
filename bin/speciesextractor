@@ -10,4 +10,6 @@ parser.parse()
 sorted_species = sorted(parser.all_species, key=lambda s: s.binomial_name)
 
 inserter = speciesextractor.Inserter()
+
+inserter.insert_locales(parser.locales)
 inserter.insert(sorted_species)
