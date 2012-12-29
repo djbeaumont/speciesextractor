@@ -19,7 +19,7 @@ class Parser:
         page_tag = '{%s}%s' % (self.ns['n'], 'page')
         for event, element in etree.iterparse(self.local_location):
             if element.tag == page_tag:
-                page_title = element.findtext('n:title', namespaces=self.ns)
+                page_title = element.findtext('n:title', namespaces=self.ns).strip()
                 page_text = element.findtext('n:revision/n:text', namespaces=self.ns)
 
                 if self.is_species_page(page_title, page_text):
@@ -42,7 +42,7 @@ class Parser:
             for locale in locale_names:
                 # Split out muliple names for the same locale
                 self.locales.add(locale[0])
-                parsed_vernacular_names[locale[0]] = re.split(', ', locale[1])
+                parsed_vernacular_names[locale[0]] = [name.strip() for name in re.split(',', locale[1])]
         
         return parsed_vernacular_names
 
