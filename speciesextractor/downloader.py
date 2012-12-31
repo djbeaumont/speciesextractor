@@ -1,4 +1,4 @@
-import urllib, tempfile, bz2, os
+import urllib.request, tempfile, bz2, os
 
 class Downloader:
     """Retrieve and extract wikispecies dump files"""
@@ -7,15 +7,14 @@ class Downloader:
         """Construct a downloader"""
         pass
 
-    def download(self):
+    def download(self, web_location):
         """Download a dump file and store it in the user's temporary folder"""
 
         tmp_dir = tempfile.gettempdir()
-        web_location = "http://dumps.wikimedia.org/specieswiki/20121213/specieswiki-20121213-pages-meta-current.xml.bz2"
         web_filename = web_location.split('/')[-1]
         local_location = "%s/%s" % (tmp_dir, web_filename)
 
-        urllib.urlretrieve(web_location, local_location)
+        urllib.request.urlretrieve(web_location, local_location)
         decompressed_location = self.extract(local_location)
 
         return decompressed_location
