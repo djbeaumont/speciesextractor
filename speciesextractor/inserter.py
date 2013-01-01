@@ -1,12 +1,11 @@
-import psycopg2 as dbapi2
 import uuid
 
 class Inserter:
     """Insert species records into a database"""
 
-    def __init__(self):
+    def __init__(self, connection):
         """Construct an Inserter"""
-        self.db = dbapi2.connect(database="censeo", user="censeo", password="censeo")
+        self.db = connection
 	
     def insert(self, all_species):
         """Perform database inserts"""

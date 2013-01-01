@@ -1,4 +1,4 @@
-import argparse
+import argparse, psycopg2
 from .downloader import Downloader
 from .parser import Parser
 from .inserter import Inserter
@@ -43,7 +43,14 @@ def main():
 
     sorted_species = sorted(parser.all_species, key=lambda s: s.binomial_name)
 
-    inserter = Inserter()
+    connection = get_postgresql_connection('censeo', 'censeo', 'censeo')
+    inserter = Inserter(connection)
 
     inserter.insert_locales(parser.locales)
     inserter.insert(sorted_species)
+
+def get_sqlite_connection():
+    pass
+
+def get_postgresql_connection(database, username, password):
+    return psycopg2.connect(database=database, user=username, password=password)
