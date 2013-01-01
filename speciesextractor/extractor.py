@@ -1,4 +1,4 @@
-import argparse, psycopg2
+import argparse, psycopg2, sqlite3
 from .downloader import Downloader
 from .parser import Parser
 from .inserter import Inserter
@@ -43,14 +43,34 @@ def main():
 
     sorted_species = sorted(parser.all_species, key=lambda s: s.binomial_name)
 
-    connection = get_postgresql_connection('censeo', 'censeo', 'censeo')
-    inserter = Inserter(connection)
+    #connection = get_postgresql_connection('censeo', 'censeo', 'censeo')
+    #inserter = Inserter(connection, psycopg2.paramstyle)
+    connection = get_sqlite_connection('/tmp/species.sqlite')
+    inserter = Inserter(connection, sqlite3.paramstyle)
 
     inserter.insert_locales(parser.locales)
     inserter.insert(sorted_species)
 
-def get_sqlite_connection():
-    pass
+def get_sqlite_connection(filename):
+    """Get a connection to a SQLite database with the given filename"""
+    conn = sqlite3.connect(filename)
+
+    locale_schema = """CREATE TABLE locales (id varchar(16) PRIMARY KEY)"""
+    species_schema = """CREATE TABLE species (id varchar(255) PRIMARY KEY)"""
+    vernacular_names_schema = """CREATE TABLE vernacular_names (
+                                    id char(36) PRIMARY KEY,
+                                    name varchar(255),
+                                    species_id varchar(255),
+                                    locale_id varchar(16))"""
+
+    c = conn.cursor()
+    c.execute(locale_schema)
+    c.execute(species_schema)
+    c.execute(vernacular_names_schema)
+    conn.commit()
+
+    return conn
 
 def get_postgresql_connection(database, username, password):
+    """Get a connection to a PostgreSQL database with the given parameters"""
     return psycopg2.connect(database=database, user=username, password=password)
