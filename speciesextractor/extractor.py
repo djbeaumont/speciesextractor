@@ -13,8 +13,8 @@ def main():
                             help='location of the wikispecies dump')
 
     databases = argparser.add_mutually_exclusive_group(required=True)
-    databases.add_argument('--sqlite', help='save species to a SQLite database')
-    databases.add_argument('--postgres', help='save species to a PostgreSQL database')
+    databases.add_argument('--sqlite', action='store_true', help='save species to a SQLite database')
+    databases.add_argument('--postgresql', action='store_true', help='save species to a PostgreSQL database')
 
     sqliteopts = argparser.add_argument_group(
         'SQLite Options', 'Configuration of saving species to a SQLite database')
